@@ -30,7 +30,7 @@
 #include "terminalwindow.h"
 #include "windows.h"
 
-using namespace cutefish;
+using namespace properdesktop;
 
 // Runs the loop until the condition holds, for at most five seconds.
 static bool waitFor(const std::function<bool()>& condition)

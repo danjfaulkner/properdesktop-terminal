@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 #
 # Marks the prompt, the command line and its output (OSC 133) and reports
-# the working directory (OSC 7) for cutefish-terminal. Read from .zshenv,
+# the working directory (OSC 7) for properdesktop-terminal. Read from .zshenv,
 # before the user's .zshrc, so the hooks put themselves last again at each
 # prompt, after whatever the .zshrc or a prompt theme adds.
 

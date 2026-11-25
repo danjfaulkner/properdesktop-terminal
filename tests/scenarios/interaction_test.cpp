@@ -19,7 +19,7 @@
 
 #include "scenario.h"
 
-using namespace cutefish;
+using namespace properdesktop;
 
 static const char kText[] = "alpha bravo charlie\\r\\n";
 
@@ -201,7 +201,7 @@ TEST(InteractionTest, APathLinkOpensFromTheShellsDirectory)
 {
     Scenario scenario;
     std::filesystem::create_directories(scenario.directory() + "/notes.d");
-    ASSERT_TRUE(cutefish::base::file::writeAtomically(scenario.directory() + "/notes.d/today.txt", "x"));
+    ASSERT_TRUE(properdesktop::base::file::writeAtomically(scenario.directory() + "/notes.d/today.txt", "x"));
     ui::TestDriver& driver = scenario.open(printer(scenario, "see notes.d/today.txt and /nowhere/else.txt\\r\\n"));
     ASSERT_TRUE(waitFor([&] { return shows(driver, "else.txt"); }));
     term::TerminalView* view = shownTab(driver)->terminal();
@@ -268,7 +268,7 @@ TEST(InteractionTest, AClickOnTheCommandLineMovesBashsCursor)
     const char* home = std::getenv("HOME");
     const std::string savedHome = home ? home : "";
     ::setenv("HOME", scenario.directory().c_str(), 1);
-    ASSERT_TRUE(cutefish::base::file::writeAtomically(scenario.directory() + "/.bashrc", "PS1='$ '\n"));
+    ASSERT_TRUE(properdesktop::base::file::writeAtomically(scenario.directory() + "/.bashrc", "PS1='$ '\n"));
     term::Session::setShellIntegrationDirectory(TERMINAL_SOURCE_DIR "/shell-integration");
     TerminalWindow::Options options = scenario.shell();
     options.command = {"/usr/bin/bash"};

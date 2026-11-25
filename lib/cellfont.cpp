@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <cmath>
 
-namespace ui = cutefish::ui;
+namespace ui = properdesktop::ui;
 
 namespace term {
 

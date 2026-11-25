@@ -12,7 +12,7 @@
 #include <utility>
 #include <vector>
 
-namespace cutefish::base {
+namespace properdesktop::base {
 class EventLoop;
 }
 
@@ -80,7 +80,7 @@ private:
     void reap();
     void closeMaster();
 
-    cutefish::base::EventLoop& m_loop;
+    properdesktop::base::EventLoop& m_loop;
     int m_master = -1;
     int m_masterWatch = 0;
     bool m_watchingWrites = false;

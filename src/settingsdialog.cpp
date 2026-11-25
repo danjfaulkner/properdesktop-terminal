@@ -25,9 +25,9 @@
 #include "terminalsettings.h"
 #include "terminalwindow.h"
 
-using namespace cutefish::ui;
-using cutefish::i18n::format;
-using cutefish::i18n::tr;
+using namespace properdesktop::ui;
+using properdesktop::i18n::format;
+using properdesktop::i18n::tr;
 
 static std::vector<std::string> themeLabels()
 {
@@ -204,7 +204,7 @@ public:
         // A point size on a 96 dpi screen.
         m_sample->setFontSize(settings.fontPointSize() * 4.0 / 3.0);
         m_sample->setColor(text);
-        m_sample->setSpans({{"user@cutefish", 0, green},
+        m_sample->setSpans({{"user@properdesktop", 0, green},
                             {" ", 0, {}},
                             {"~", 0, blue},
                             {" $ ls\n", 0, {}},
@@ -448,7 +448,7 @@ void SettingsDialog::show()
         m_content = m_dialog->setContent<SettingsContent>(m_window);
         m_dialog->onClosed = [this] {
             m_content = nullptr;
-            cutefish::base::EventLoop::current()->post([this] { m_dialog.reset(); });
+            properdesktop::base::EventLoop::current()->post([this] { m_dialog.reset(); });
         };
     }
     update();

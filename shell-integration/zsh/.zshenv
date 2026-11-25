@@ -1,14 +1,14 @@
 # SPDX-FileCopyrightText: 2026 Reion Wong <reionwong@gmail.com>
 # SPDX-License-Identifier: MIT
 #
-# zsh reads this first because cutefish-terminal points ZDOTDIR here. It puts
+# zsh reads this first because properdesktop-terminal points ZDOTDIR here. It puts
 # the user's ZDOTDIR back, reads the user's .zshenv in its place, and in an
 # interactive shell loads the integration. Everything is quoted so that
 # aliases a .zshenv defines cannot change it.
 
-if [[ -n ${CUTEFISH_TERMINAL_ZSH_ZDOTDIR+x} ]]; then
-    'builtin' 'export' ZDOTDIR="$CUTEFISH_TERMINAL_ZSH_ZDOTDIR"
-    'builtin' 'unset' 'CUTEFISH_TERMINAL_ZSH_ZDOTDIR'
+if [[ -n ${PROPERDESKTOP_TERMINAL_ZSH_ZDOTDIR+x} ]]; then
+    'builtin' 'export' ZDOTDIR="$PROPERDESKTOP_TERMINAL_ZSH_ZDOTDIR"
+    'builtin' 'unset' 'PROPERDESKTOP_TERMINAL_ZSH_ZDOTDIR'
 else
     'builtin' 'unset' 'ZDOTDIR'
 fi
@@ -20,7 +20,7 @@ fi
 } always {
     if [[ -o 'interactive' ]]; then
         # The directory of this file.
-        'builtin' 'typeset' __cft_file=${${(%):-%x}:A:h}/cutefish-terminal-integration
+        'builtin' 'typeset' __cft_file=${${(%):-%x}:A:h}/properdesktop-terminal-integration
         [[ ! -r $__cft_file ]] || 'builtin' 'source' '--' "$__cft_file"
     fi
     'builtin' 'unset' '__cft_file'

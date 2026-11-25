@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(cutefish-terminal VERSION 1.0 LANGUAGES CXX)
+project(properdesktop-terminal VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(GNUInstallDirs)
 include(CTest)
 
-find_package(CutefishToolkit REQUIRED)
+find_package(ProperDesktopToolkit REQUIRED)
 find_package(PkgConfig REQUIRED)
 
 add_subdirectory(lib)
@@ -28,10 +28,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE src)
 target_link_libraries(${PROJECT_NAME} PRIVATE terminal-display)
 
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(DIRECTORY shell-integration DESTINATION ${CMAKE_INSTALL_DATADIR}/cutefish-terminal)
+install(DIRECTORY shell-integration DESTINATION ${CMAKE_INSTALL_DATADIR}/properdesktop-terminal)
 
-cutefish_add_translations(cutefish-terminal SOURCES src DESKTOP_FILES cutefish-terminal.desktop)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cutefish-terminal.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+properdesktop_add_translations(properdesktop-terminal SOURCES src DESKTOP_FILES properdesktop-terminal.desktop)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/properdesktop-terminal.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 
 if(BUILD_TESTING)
     add_subdirectory(tests)

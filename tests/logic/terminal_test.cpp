@@ -190,7 +190,7 @@ TEST(TerminalTest, PasteCannotEndTheBracketEarly)
 TEST(TerminalTest, RepliesToTheQueriesProgramsSend)
 {
     Pty pty;
-    EXPECT_EQ(pty.print("\033[>q"), "\033P>|cutefish-terminal 1.0\033\\");
+    EXPECT_EQ(pty.print("\033[>q"), "\033P>|properdesktop-terminal 1.0\033\\");
     EXPECT_EQ(pty.print("\033[c"), "\033[?62;22c");
     EXPECT_EQ(pty.print("\033[6n"), "\033[1;1R");
     // Light or dark, from the scheme's background.

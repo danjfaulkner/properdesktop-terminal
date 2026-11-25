@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Name=Terminal
-Exec=/usr/bin/cutefish-terminal
+Exec=/usr/bin/properdesktop-terminal
 Icon=utilities-terminal
 Terminal=false
 Type=Application

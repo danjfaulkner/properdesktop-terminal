@@ -16,7 +16,7 @@
 #include "search.h"
 #include "session.h"
 
-namespace ui = cutefish::ui;
+namespace ui = properdesktop::ui;
 
 namespace term {
 
@@ -559,7 +559,7 @@ std::string TerminalView::resolvedPath(const std::string& path) const
     namespace fs = std::filesystem;
     std::error_code error;
     if (path.starts_with("~/")) {
-        const fs::path home = fs::path(cutefish::base::paths::home()) / path.substr(2);
+        const fs::path home = fs::path(properdesktop::base::paths::home()) / path.substr(2);
         return fs::exists(home, error) ? home.lexically_normal().string() : path;
     }
     if (fs::path(path).is_absolute())

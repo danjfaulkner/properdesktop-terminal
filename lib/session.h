@@ -81,11 +81,11 @@ public:
     // Hangs up the program; finished follows.
     void close();
 
-    cutefish::base::Signal<> finished;
-    cutefish::base::Signal<> titleChanged;
-    cutefish::base::Signal<> bell;
+    properdesktop::base::Signal<> finished;
+    properdesktop::base::Signal<> titleChanged;
+    properdesktop::base::Signal<> bell;
     // After each read of program output.
-    cutefish::base::Signal<> outputReceived;
+    properdesktop::base::Signal<> outputReceived;
 
 private:
     struct Foreground
@@ -116,9 +116,9 @@ private:
 
     bool m_closing = false;
     bool m_destroying = false;
-    cutefish::base::Timer m_foregroundCheck;
-    cutefish::base::Timer m_titleLater;
-    cutefish::base::Timer m_finishLater;
+    properdesktop::base::Timer m_foregroundCheck;
+    properdesktop::base::Timer m_titleLater;
+    properdesktop::base::Timer m_finishLater;
 };
 
 }

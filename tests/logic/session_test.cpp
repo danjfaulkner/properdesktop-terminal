@@ -22,13 +22,13 @@
 using namespace term;
 
 // Runs the loop until the condition holds, for at most five seconds.
-static bool waitFor(cutefish::base::EventLoop& loop, const std::function<bool()>& condition)
+static bool waitFor(properdesktop::base::EventLoop& loop, const std::function<bool()>& condition)
 {
     const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(5);
     while (!condition()) {
         if (std::chrono::steady_clock::now() > deadline)
             return false;
-        cutefish::base::Timer tick;
+        properdesktop::base::Timer tick;
         tick.setSingleShot(true);
         tick.onTimeout = [] {};
         tick.start(std::chrono::milliseconds(10));
@@ -39,8 +39,8 @@ static bool waitFor(cutefish::base::EventLoop& loop, const std::function<bool()>
 
 TEST(SessionTest, TitleFollowsTheProgramInFront)
 {
-    cutefish::base::EventLoop loop;
-    cutefish::base::file::TemporaryDirectory directory("/tmp", "session-test");
+    properdesktop::base::EventLoop loop;
+    properdesktop::base::file::TemporaryDirectory directory("/tmp", "session-test");
     ASSERT_TRUE(directory.isValid());
     const std::string directoryName = std::filesystem::path(directory.path()).filename().string();
 
@@ -77,7 +77,7 @@ TEST(SessionTest, TitleFollowsTheProgramInFront)
 
 TEST(SessionTest, ShellExitFinishesTheSession)
 {
-    cutefish::base::EventLoop loop;
+    properdesktop::base::EventLoop loop;
     Session session;
     session.setCommand({"/bin/sh"});
     bool finished = false;
@@ -92,7 +92,7 @@ TEST(SessionTest, ShellExitFinishesTheSession)
 
 TEST(SessionTest, LastOutputArrivesBeforeTheEnd)
 {
-    cutefish::base::EventLoop loop;
+    properdesktop::base::EventLoop loop;
     Session session;
     session.setCommand({"/bin/sh", "-c", "printf 'goodbye'"});
     bool finished = false;
@@ -108,8 +108,8 @@ TEST(SessionTest, LastOutputArrivesBeforeTheEnd)
 
 TEST(SessionTest, ChildSeesTheTerminalEnvironment)
 {
-    cutefish::base::EventLoop loop;
-    cutefish::base::file::TemporaryDirectory directory("/tmp", "session-env");
+    properdesktop::base::EventLoop loop;
+    properdesktop::base::file::TemporaryDirectory directory("/tmp", "session-env");
     ASSERT_TRUE(directory.isValid());
     const std::string output = directory.path() + "/env";
 
@@ -122,7 +122,7 @@ TEST(SessionTest, ChildSeesTheTerminalEnvironment)
 
     std::optional<std::string> contents;
     EXPECT_TRUE(waitFor(loop, [&] {
-        contents = cutefish::base::file::read(output);
+        contents = properdesktop::base::file::read(output);
         return contents && contents->find("/dev/pts/") != std::string::npos;
     }));
     ASSERT_TRUE(contents);
@@ -133,11 +133,11 @@ TEST(SessionTest, ChildSeesTheTerminalEnvironment)
 TEST(SessionTest, CurrentDirBehindAProgramOfAnotherUser)
 {
     // Set-group-ID, so its working directory is not ours to read.
-    const std::string agent = cutefish::base::paths::findExecutable("ssh-agent");
+    const std::string agent = properdesktop::base::paths::findExecutable("ssh-agent");
     if (agent.empty())
         GTEST_SKIP() << "no ssh-agent";
-    cutefish::base::EventLoop loop;
-    cutefish::base::file::TemporaryDirectory directory("/tmp", "session-cwd");
+    properdesktop::base::EventLoop loop;
+    properdesktop::base::file::TemporaryDirectory directory("/tmp", "session-cwd");
     ASSERT_TRUE(directory.isValid());
 
     Session session;
@@ -157,8 +157,8 @@ TEST(SessionTest, CurrentDirBehindAProgramOfAnotherUser)
 
 TEST(SessionTest, ClearAllAtAPromptAsksTheShellToRedraw)
 {
-    cutefish::base::EventLoop loop;
-    cutefish::base::file::TemporaryDirectory directory("/tmp", "session-clear");
+    properdesktop::base::EventLoop loop;
+    properdesktop::base::file::TemporaryDirectory directory("/tmp", "session-clear");
     ASSERT_TRUE(directory.isValid());
     const std::string output = directory.path() + "/received";
 
@@ -169,7 +169,7 @@ TEST(SessionTest, ClearAllAtAPromptAsksTheShellToRedraw)
     ASSERT_TRUE(waitFor(loop, [&] { return session.foregroundProcessGroup() == session.processId(); }));
     session.terminal().write("a\r\nb\r\n$ ls");
     EXPECT_TRUE(session.clearScreenAndScrollback());
-    EXPECT_TRUE(waitFor(loop, [&] { return cutefish::base::file::read(output).value_or("") == "\x0c"; }));
+    EXPECT_TRUE(waitFor(loop, [&] { return properdesktop::base::file::read(output).value_or("") == "\x0c"; }));
 
     session.terminal().write("\033[?1049h");
     EXPECT_FALSE(session.clearScreenAndScrollback());
@@ -178,8 +178,8 @@ TEST(SessionTest, ClearAllAtAPromptAsksTheShellToRedraw)
 // The shell's prompt marks decide, over what runs in front.
 TEST(SessionTest, ClearAndCloseFollowThePromptMarks)
 {
-    cutefish::base::EventLoop loop;
-    cutefish::base::file::TemporaryDirectory directory("/tmp", "session-marks");
+    properdesktop::base::EventLoop loop;
+    properdesktop::base::file::TemporaryDirectory directory("/tmp", "session-marks");
     ASSERT_TRUE(directory.isValid());
     const std::string output = directory.path() + "/received";
 
@@ -195,7 +195,7 @@ TEST(SessionTest, ClearAndCloseFollowThePromptMarks)
     EXPECT_FALSE(session.needsConfirmClose());
     EXPECT_EQ(terminal.promptClick(), Terminal::PromptClick::Line);
     EXPECT_TRUE(session.clearScreenAndScrollback());
-    EXPECT_TRUE(waitFor(loop, [&] { return cutefish::base::file::read(output).value_or("") == "\x0c"; }));
+    EXPECT_TRUE(waitFor(loop, [&] { return properdesktop::base::file::read(output).value_or("") == "\x0c"; }));
 
     // In a command's output the lines above go, and the cursor's stays put.
     terminal.write("ls\r\n\033]133;C\aone\r\ntwo\r\nthree");
@@ -209,12 +209,12 @@ TEST(SessionTest, ClearAndCloseFollowThePromptMarks)
         EXPECT_EQ(terminal.logicalLine(above).text.find_first_not_of(' '), std::string::npos) << above;
     EXPECT_EQ(terminal.logicalLine(line).text.substr(0, 5), "three");
     loop.dispatch();
-    EXPECT_EQ(cutefish::base::file::read(output).value_or(""), "\x0c");
+    EXPECT_EQ(properdesktop::base::file::read(output).value_or(""), "\x0c");
 }
 
 TEST(SessionTest, DirectoriesExpandAndFallBack)
 {
-    cutefish::base::EventLoop loop;
+    properdesktop::base::EventLoop loop;
     const std::string output = "/tmp/session-dir-" + std::to_string(::getpid());
     Session session;
     session.setInitialWorkingDirectory("/nonexistent/directory");
@@ -223,6 +223,6 @@ TEST(SessionTest, DirectoriesExpandAndFallBack)
     auto subscription = session.finished.connect([&] { finished = true; });
     session.start();
     EXPECT_TRUE(waitFor(loop, [&] { return finished; }));
-    EXPECT_EQ(cutefish::base::file::read(output).value_or(""), cutefish::base::paths::home() + "\n");
+    EXPECT_EQ(properdesktop::base::file::read(output).value_or(""), properdesktop::base::paths::home() + "\n");
     std::filesystem::remove(output);
 }

@@ -25,10 +25,10 @@
 #include "terminalsettings.h"
 #include "terminalwindow.h"
 
-using namespace cutefish::ui;
-using cutefish::i18n::format;
-using cutefish::i18n::tr;
-namespace strings = cutefish::base::strings;
+using namespace properdesktop::ui;
+using properdesktop::i18n::format;
+using properdesktop::i18n::tr;
+namespace strings = properdesktop::base::strings;
 
 // The terminal's margins inside the page; the top is the header's line.
 static constexpr double kTerminalMargin = 6;
@@ -49,7 +49,7 @@ TerminalPage::TerminalPage(TerminalWindow* window, const std::string& path, cons
     m_terminal->setBackgroundOpacity(0);
     m_terminal->setSession(m_session.get());
 
-    m_terminal->onShortcut = [this](const cutefish::ui::KeyEvent& event) { return handleShortcut(event); };
+    m_terminal->onShortcut = [this](const properdesktop::ui::KeyEvent& event) { return handleShortcut(event); };
     m_terminal->onContextMenu = [this](double x, double y) { openMenu(x, y); };
     m_terminal->onLinkActivated = [this](const std::string& url) { m_window->openLink(url); };
 
@@ -183,7 +183,7 @@ void TerminalPage::dropUrls(const std::vector<std::string>& urls)
     std::vector<std::string> words;
     for (const std::string& url : urls) {
         // A local file as its path, "file://localhost/" too; other links as they are.
-        words.push_back(shellQuote(cutefish::base::url::toLocalFile(url).value_or(url)));
+        words.push_back(shellQuote(properdesktop::base::url::toLocalFile(url).value_or(url)));
     }
     // As a paste: bracketed for a shell that asks, so control characters in
     // a name are inserted rather than run as editing keys.
@@ -257,12 +257,12 @@ void TerminalPage::openFind()
     m_findBar->open(selection.find('\n') == std::string::npos ? selection : std::string());
 }
 
-bool TerminalPage::handleShortcut(const cutefish::ui::KeyEvent& event)
+bool TerminalPage::handleShortcut(const properdesktop::ui::KeyEvent& event)
 {
     const uint32_t mods = event.modifiers;
-    const bool ctrl = mods & cutefish::ui::ControlModifier;
-    const bool shift = mods & cutefish::ui::ShiftModifier;
-    const bool alt = mods & cutefish::ui::AltModifier;
+    const bool ctrl = mods & properdesktop::ui::ControlModifier;
+    const bool shift = mods & properdesktop::ui::ShiftModifier;
+    const bool alt = mods & properdesktop::ui::AltModifier;
     const uint32_t key = event.key;
     bool accepted = false;
 

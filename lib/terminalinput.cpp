@@ -184,7 +184,7 @@ bool Terminal::sendKey(const KeyInput& input)
     if (key == GHOSTTY_KEY_UNIDENTIFIED) {
         const char32_t character = xkb_keysym_to_utf32(input.keysym);
         if (text.empty() && character >= 0x20 && character != 0x7f)
-            cutefish::base::strings::appendUtf8(text, character);
+            properdesktop::base::strings::appendUtf8(text, character);
         key = typedKey(character, &unshifted);
         if (key == GHOSTTY_KEY_UNIDENTIFIED) {
             key = physicalKey(input.keycode);
@@ -201,7 +201,7 @@ bool Terminal::sendKey(const KeyInput& input)
     // Shift+Tab arrives as ISO_Left_Tab, Shift held.
     GhosttyMods consumed = 0;
     if ((mods & GHOSTTY_MODS_SHIFT) && !text.empty() && unshifted
-        && cutefish::base::strings::utf8ToUtf32(text) != std::u32string(1, unshifted)) {
+        && properdesktop::base::strings::utf8ToUtf32(text) != std::u32string(1, unshifted)) {
         consumed |= GHOSTTY_MODS_SHIFT;
     }
 

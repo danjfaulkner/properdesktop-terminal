@@ -15,7 +15,7 @@
 
 #include "scenario.h"
 
-using namespace cutefish;
+using namespace properdesktop;
 
 // The program in front is the one the test started, not the shell still
 // coming up, which also counts as a program running.

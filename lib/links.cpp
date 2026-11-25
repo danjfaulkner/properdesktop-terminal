@@ -12,7 +12,7 @@
 
 #include "base/strings.h"
 
-namespace strings = cutefish::base::strings;
+namespace strings = properdesktop::base::strings;
 
 namespace term {
 

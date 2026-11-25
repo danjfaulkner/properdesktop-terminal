@@ -36,11 +36,11 @@
 #include "terminalsettings.h"
 #include "windows.h"
 
-using namespace cutefish::ui;
-using cutefish::i18n::format;
-using cutefish::i18n::tr;
-using cutefish::i18n::trn;
-namespace strings = cutefish::base::strings;
+using namespace properdesktop::ui;
+using properdesktop::i18n::format;
+using properdesktop::i18n::tr;
+using properdesktop::i18n::trn;
+namespace strings = properdesktop::base::strings;
 
 static constexpr double kHeaderHeight = 32;
 static constexpr double kWindowControlSize = 16;
@@ -49,7 +49,7 @@ static constexpr double kWindowControlSize = 16;
 static constexpr double kTabBarHeight = 34;
 static constexpr double kTrackBottom = 4;
 // What a tab dragged between windows of this process carries.
-static constexpr const char* kTabMimeType = "application/x-cutefish-terminal-tab";
+static constexpr const char* kTabMimeType = "application/x-properdesktop-terminal-tab";
 // The "+" button at the tab bar's end.
 static constexpr double kNewTabButtonSize = 28;
 // From the track's end and from the window's edge to the button.
@@ -323,7 +323,7 @@ private:
     RectF m_zoomRect;
     double m_zoomOpacity = 0;
     double m_bellOpacity = 0;
-    cutefish::base::Timer m_zoomHide;
+    properdesktop::base::Timer m_zoomHide;
     std::unique_ptr<Animation> m_zoomFade;
     std::unique_ptr<Animation> m_bellFade;
 };
@@ -356,7 +356,7 @@ TerminalWindow::TerminalWindow(Windows& windows, TerminalSettings& settings, Opt
         // Later, not from inside the tab bar's own handler: taking the tab out
         // changes the tabs it is running over.
         std::weak_ptr<bool> alive = m_alive;
-        cutefish::base::EventLoop::current()->post([this, alive, index, position] {
+        properdesktop::base::EventLoop::current()->post([this, alive, index, position] {
             if (alive.lock())
                 detachTab(index, position);
         });
@@ -534,11 +534,11 @@ void TerminalWindow::attach(TerminalPage* page)
     page->setTerminalWindow(this);
     // Looked up when the shell exits: closing other tabs shifts the index,
     // and a tab dragged into another window closes there.
-    std::vector<cutefish::base::Subscription>& connections = m_pageConnections[page];
+    std::vector<properdesktop::base::Subscription>& connections = m_pageConnections[page];
     connections.push_back(page->terminalClosed.connect([this, page] {
         const int index = indexOfPage(page);
         if (index >= 0)
-            cutefish::base::EventLoop::current()->post([alive = std::weak_ptr<bool>(m_alive), this, page] {
+            properdesktop::base::EventLoop::current()->post([alive = std::weak_ptr<bool>(m_alive), this, page] {
                 if (alive.lock() && indexOfPage(page) >= 0)
                     closeTab(indexOfPage(page));
             });
@@ -853,7 +853,7 @@ void TerminalWindow::buildMainMenu()
 {
     m_window->setMainMenu(nullptr);
     m_mainMenu = std::make_unique<Menu>();
-    const uint32_t ctrlShift = cutefish::ui::ControlModifier | cutefish::ui::ShiftModifier;
+    const uint32_t ctrlShift = properdesktop::ui::ControlModifier | properdesktop::ui::ShiftModifier;
 
     Menu* application = m_mainMenu->addSubmenu(tr("Terminal"));
     application->setRole(MenuRole::Application);
@@ -935,11 +935,11 @@ void TerminalWindow::buildMainMenu()
 
     Menu* view = m_mainMenu->addSubmenu(tr("View"));
     const size_t bigger = view->addItem(tr("Bigger"), [this] { zoom(1); });
-    view->setItemKeyEquivalent(bigger, "=", cutefish::ui::ControlModifier);
+    view->setItemKeyEquivalent(bigger, "=", properdesktop::ui::ControlModifier);
     const size_t smaller = view->addItem(tr("Smaller"), [this] { zoom(-1); });
-    view->setItemKeyEquivalent(smaller, "-", cutefish::ui::ControlModifier);
+    view->setItemKeyEquivalent(smaller, "-", properdesktop::ui::ControlModifier);
     const size_t actualSize = view->addItem(tr("Actual Size"), [this] { zoom(0); });
-    view->setItemKeyEquivalent(actualSize, "0", cutefish::ui::ControlModifier);
+    view->setItemKeyEquivalent(actualSize, "0", properdesktop::ui::ControlModifier);
     view->addSeparator();
     const size_t fullScreen = view->addItem(tr("Enter Full Screen"), [this] { toggleFullScreen(); });
     view->setItemKeyEquivalent(fullScreen, "F11", 0);
@@ -955,7 +955,7 @@ void TerminalWindow::buildMainMenu()
     const size_t previousTab = windowMenu->addItem(tr("Show Previous Tab"), [this] { cycleTab(-1); });
     windowMenu->setItemKeyEquivalent(previousTab, "Tab", ctrlShift);
     const size_t nextTab = windowMenu->addItem(tr("Show Next Tab"), [this] { cycleTab(1); });
-    windowMenu->setItemKeyEquivalent(nextTab, "Tab", cutefish::ui::ControlModifier);
+    windowMenu->setItemKeyEquivalent(nextTab, "Tab", properdesktop::ui::ControlModifier);
     const size_t moveLeft = windowMenu->addItem(tr("Move Tab Left"), [this] { moveCurrentTab(-1); });
     const size_t moveRight = windowMenu->addItem(tr("Move Tab Right"), [this] { moveCurrentTab(1); });
     windowMenu->onAboutToShow = [this, windowMenu, previousTab, nextTab, moveLeft, moveRight] {

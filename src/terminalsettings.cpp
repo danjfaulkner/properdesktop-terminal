@@ -7,7 +7,7 @@
 #include "base/settings.h"
 
 TerminalSettings::TerminalSettings(const std::string& path)
-    : m_settings(std::make_unique<cutefish::base::Settings>(path))
+    : m_settings(std::make_unique<properdesktop::base::Settings>(path))
 {
     m_fontPointSize = int(m_settings->intValue("fontPointSize", m_fontPointSize));
     m_fontName = m_settings->stringValue("fontName", m_fontName);
@@ -27,7 +27,7 @@ TerminalSettings::~TerminalSettings() = default;
 
 std::string TerminalSettings::defaultPath()
 {
-    return cutefish::base::paths::cutefishConfig("terminal");
+    return properdesktop::base::paths::properdesktopConfig("terminal");
 }
 
 void TerminalSettings::save(const std::string& key)

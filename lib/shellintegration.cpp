@@ -20,7 +20,7 @@ static bool readable(const std::string& path)
 
 static bool integrateBash(const std::string& directory, Pty::Options& options)
 {
-    const std::string script = directory + "/bash/cutefish-terminal.bash";
+    const std::string script = directory + "/bash/properdesktop-terminal.bash";
     if (!readable(script))
         return false;
     std::vector<std::string> arguments{options.arguments.front(), "--posix"};
@@ -50,11 +50,11 @@ static bool integrateBash(const std::string& directory, Pty::Options& options)
         }
     }
     options.arguments = std::move(arguments);
-    options.copies["CUTEFISH_TERMINAL_BASH_ENV"] = "ENV";
+    options.copies["PROPERDESKTOP_TERMINAL_BASH_ENV"] = "ENV";
     options.environment["ENV"] = script;
-    options.environment["CUTEFISH_TERMINAL_BASH_INJECT"] = inject;
+    options.environment["PROPERDESKTOP_TERMINAL_BASH_INJECT"] = inject;
     if (!rcfile.empty())
-        options.environment["CUTEFISH_TERMINAL_BASH_RCFILE"] = rcfile;
+        options.environment["PROPERDESKTOP_TERMINAL_BASH_RCFILE"] = rcfile;
     return true;
 }
 
@@ -63,16 +63,16 @@ static bool integrateZsh(const std::string& directory, Pty::Options& options)
     const std::string zdotdir = directory + "/zsh";
     if (!readable(zdotdir + "/.zshenv"))
         return false;
-    options.copies["CUTEFISH_TERMINAL_ZSH_ZDOTDIR"] = "ZDOTDIR";
+    options.copies["PROPERDESKTOP_TERMINAL_ZSH_ZDOTDIR"] = "ZDOTDIR";
     options.environment["ZDOTDIR"] = zdotdir;
     return true;
 }
 
 static bool integrateFish(const std::string& directory, Pty::Options& options)
 {
-    if (!readable(directory + "/fish/vendor_conf.d/cutefish-terminal-shell-integration.fish"))
+    if (!readable(directory + "/fish/vendor_conf.d/properdesktop-terminal-shell-integration.fish"))
         return false;
-    options.environment["CUTEFISH_TERMINAL_SHELL_INTEGRATION_XDG_DIR"] = directory;
+    options.environment["PROPERDESKTOP_TERMINAL_SHELL_INTEGRATION_XDG_DIR"] = directory;
     // What XDG_DATA_DIRS means when it is not set.
     options.prefixes["XDG_DATA_DIRS"] = {directory, "/usr/local/share:/usr/share"};
     return true;

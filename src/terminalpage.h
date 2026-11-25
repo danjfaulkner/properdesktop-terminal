@@ -16,7 +16,7 @@ class Session;
 class TerminalView;
 }
 
-namespace cutefish::ui {
+namespace properdesktop::ui {
 class Menu;
 class ScrollBar;
 }
@@ -26,7 +26,7 @@ class TerminalWindow;
 
 // One tab: a shell on a pty, its terminal view with the scroll bar over its
 // right margin, the find bar and the context menu.
-class TerminalPage : public cutefish::ui::View
+class TerminalPage : public properdesktop::ui::View
 {
 public:
     // `path` is where the shell starts ("$PWD", "$HOME" or a directory),
@@ -57,18 +57,18 @@ public:
     // A drop: paths and links as one shell word each, text pasted.
     void dropUrls(const std::vector<std::string>& urls);
 
-    cutefish::base::Signal<> titleChanged;
+    properdesktop::base::Signal<> titleChanged;
     // The shell ended.
-    cutefish::base::Signal<> terminalClosed;
+    properdesktop::base::Signal<> terminalClosed;
 
 protected:
     void layout() override;
-    bool canDrop(const cutefish::ui::DropOffer& offer) const override;
-    uint32_t dragUpdate(const cutefish::ui::DragEvent& event) override;
-    uint32_t drop(const cutefish::ui::DragEvent& event) override;
+    bool canDrop(const properdesktop::ui::DropOffer& offer) const override;
+    uint32_t dragUpdate(const properdesktop::ui::DragEvent& event) override;
+    uint32_t drop(const properdesktop::ui::DragEvent& event) override;
 
 private:
-    bool handleShortcut(const cutefish::ui::KeyEvent& event);
+    bool handleShortcut(const properdesktop::ui::KeyEvent& event);
     void openMenu(double x, double y);
     void updateScrollBar();
 
@@ -77,11 +77,11 @@ private:
     std::vector<std::string> m_command;
     std::unique_ptr<term::Session> m_session;
     term::TerminalView* m_terminal;
-    cutefish::ui::ScrollBar* m_scrollBar;
+    properdesktop::ui::ScrollBar* m_scrollBar;
     FindBar* m_findBar = nullptr;
-    std::unique_ptr<cutefish::ui::Menu> m_menu;
-    cutefish::base::Timer m_scrollActivity;
-    std::vector<cutefish::base::Subscription> m_connections;
+    std::unique_ptr<properdesktop::ui::Menu> m_menu;
+    properdesktop::base::Timer m_scrollActivity;
+    std::vector<properdesktop::base::Subscription> m_connections;
 
     std::shared_ptr<bool> m_alive = std::make_shared<bool>(true);
 

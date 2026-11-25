@@ -10,7 +10,7 @@
 
 #include "ui/glyph_run.h"
 
-namespace cutefish::ui {
+namespace properdesktop::ui {
 class Painter;
 }
 
@@ -54,21 +54,21 @@ public:
 
     // Clusters of one style and colour, their origins at device x from the
     // painter's origin, on a baseline in device pixels.
-    void draw(cutefish::ui::Painter& painter, int style, cutefish::ui::Color color, double baseline,
-              std::span<const cutefish::ui::GlyphCluster> clusters);
+    void draw(properdesktop::ui::Painter& painter, int style, properdesktop::ui::Color color, double baseline,
+              std::span<const properdesktop::ui::GlyphCluster> clusters);
 
     // Shaped clusters kept for all styles.
     size_t cachedClusters() const;
 
 private:
-    cutefish::ui::FontSpec spec(int style) const;
+    properdesktop::ui::FontSpec spec(int style) const;
     void updateMetrics();
 
     std::string m_family = "Monospace";
     double m_pointSize = 10;
     double m_scale = 1;
     CellMetrics m_metrics;
-    std::unique_ptr<cutefish::ui::GlyphRenderer> m_renderers[4];
+    std::unique_ptr<properdesktop::ui::GlyphRenderer> m_renderers[4];
 };
 
 }

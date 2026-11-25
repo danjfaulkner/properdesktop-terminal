@@ -15,7 +15,7 @@
 #include "boxdrawing.h"
 #include "cellfont.h"
 
-using namespace cutefish;
+using namespace properdesktop;
 using term::BoxDrawing;
 using term::CellFont;
 

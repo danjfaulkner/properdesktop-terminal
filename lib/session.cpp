@@ -16,7 +16,7 @@
 #include "proxyenvironment.h"
 #include "shellintegration.h"
 
-namespace strings = cutefish::base::strings;
+namespace strings = properdesktop::base::strings;
 
 namespace term {
 
@@ -41,7 +41,7 @@ static bool isExecutable(const std::string& path)
 // "$HOME" and "$PWD" where they start a path or stand alone.
 static std::string expandDirectory(const std::string& text)
 {
-    for (const auto& [name, value] : {std::pair<std::string, std::string>{"$HOME", cutefish::base::paths::home()},
+    for (const auto& [name, value] : {std::pair<std::string, std::string>{"$HOME", properdesktop::base::paths::home()},
                                       std::pair<std::string, std::string>{"$PWD", processDirectory()}}) {
         if (text == name || text.starts_with(name + "/"))
             return value + text.substr(name.size());
@@ -123,7 +123,7 @@ void Session::setInitialWorkingDirectory(const std::string& directory)
         path = processDirectory();
     std::error_code error;
     if (!std::filesystem::is_directory(path, error))
-        path = cutefish::base::paths::home();
+        path = properdesktop::base::paths::home();
     m_workingDirectory = path;
 }
 
@@ -198,7 +198,7 @@ const Session::Foreground& Session::foreground()
         return m_foreground;
 
     // /proc/<pid>/stat: "pid (name) state ppid ...", the name in the outermost parentheses.
-    const std::optional<std::string> stat = cutefish::base::file::read("/proc/" + std::to_string(group) + "/stat");
+    const std::optional<std::string> stat = properdesktop::base::file::read("/proc/" + std::to_string(group) + "/stat");
     if (!stat)
         return m_foreground;
     const size_t open = stat->find('(');
@@ -248,7 +248,7 @@ std::string Session::title()
     }
 
     std::string directory = currentDir();
-    std::string home = cutefish::base::paths::home();
+    std::string home = properdesktop::base::paths::home();
     while (home.size() > 1 && home.back() == '/')
         home.pop_back();
     while (directory.size() > 1 && directory.back() == '/')

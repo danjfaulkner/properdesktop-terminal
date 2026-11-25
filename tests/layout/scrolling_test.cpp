@@ -23,7 +23,7 @@
 #include "terminalwindow.h"
 #include "windows.h"
 
-using namespace cutefish;
+using namespace properdesktop;
 
 static constexpr uint64_t kFrameNs = 16'666'667;
 

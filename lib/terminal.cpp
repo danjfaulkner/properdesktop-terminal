@@ -15,7 +15,7 @@
 namespace term {
 
 // What a program reads back from XTVERSION.
-static constexpr std::string_view kVersion = "cutefish-terminal 1.0";
+static constexpr std::string_view kVersion = "properdesktop-terminal 1.0";
 
 // The library calls these during a write, so they only note what happened or
 // hand bytes on; nothing here writes to the terminal again.
@@ -167,7 +167,7 @@ void Terminal::notePromptMark(std::string_view mark)
         return;
     std::optional<PromptClick> events;
     std::optional<PromptClick> line;
-    for (const std::string_view option : cutefish::base::strings::splitViews(mark, ';')) {
+    for (const std::string_view option : properdesktop::base::strings::splitViews(mark, ';')) {
         if (option == "click_events=1")
             events = PromptClick::AbsoluteEvents;
         else if (option == "click_events=2")
@@ -226,7 +226,7 @@ std::string Terminal::title() const
     GhosttyString title{};
     if (ghostty_terminal_get(m_terminal, GHOSTTY_TERMINAL_DATA_TITLE, &title) != GHOSTTY_SUCCESS || !title.ptr)
         return {};
-    return cutefish::base::strings::sanitizedUtf8(
+    return properdesktop::base::strings::sanitizedUtf8(
             std::string_view(reinterpret_cast<const char*>(title.ptr), title.len));
 }
 
@@ -257,7 +257,7 @@ std::string Terminal::reportedDirectory() const
     }
     if (!text.starts_with('/'))
         return {};
-    return encoded ? cutefish::base::url::percentDecoded(text) : std::string(text);
+    return encoded ? properdesktop::base::url::percentDecoded(text) : std::string(text);
 }
 
 bool Terminal::mode(GhosttyMode mode) const
@@ -709,7 +709,7 @@ Terminal::LogicalLine Terminal::logicalLine(int line) const
             if (read != GHOSTTY_SUCCESS || count == 0)
                 result.text += ' ';
             for (size_t i = 0; read == GHOSTTY_SUCCESS && i < count; ++i)
-                cutefish::base::strings::appendUtf8(result.text, char32_t(codepoints[i]));
+                properdesktop::base::strings::appendUtf8(result.text, char32_t(codepoints[i]));
             result.cells.resize(result.text.size(), {row, column});
             std::fill(result.cells.begin() + long(start), result.cells.end(), std::pair<int, int>{row, column});
         }

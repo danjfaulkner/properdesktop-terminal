@@ -16,11 +16,11 @@
 #include "terminalwindow.h"
 #include "windows.h"
 
-using namespace cutefish;
+using namespace properdesktop;
 
 static void printHelp(const char* program)
 {
-    std::printf("Usage: %s [options]\nCutefish Terminal\n\nOptions:\n"
+    std::printf("Usage: %s [options]\nProperDesktop Terminal\n\nOptions:\n"
                 "  -h, --help                 Displays help on commandline options.\n"
                 "  --help-all                 Displays help.\n"
                 "  -w, --workdir <directory>  Start in <directory>.\n"
@@ -95,14 +95,14 @@ int main(int argc, char** argv)
     }
 
     ui::Application app(argc, argv);
-    app.setApplicationId("cutefish-terminal");
-    i18n::setDomain("cutefish-terminal");
+    app.setApplicationId("properdesktop-terminal");
+    i18n::setDomain("properdesktop-terminal");
 
     TerminalSettings settings(TerminalSettings::defaultPath());
     Windows windows(settings);
 
     TerminalWindow::Options options;
-    // Given on the command line: cutefish-terminal --workdir <dir> -e <command>.
+    // Given on the command line: properdesktop-terminal --workdir <dir> -e <command>.
     options.startDirectory = workdir.empty() ? "$PWD" : workdir;
     options.command = command;
     windows.create(std::move(options));

@@ -1,22 +1,22 @@
-# CutefishOS Terminal
+# Proper Desktop Terminal
 
-A terminal emulator for Cutefish.
+A terminal emulator for Proper Desktop.
 
 <img src="screenshots/terminal.png" alt="Terminal" width="897">
 
 The terminal's state, its parsing, scrollback, selection, search and input
 encoding come from [libghostty-vt](https://github.com/ghostty-org/ghostty)
-(MIT). The pty, the drawing on cutefish-toolkit and the windows are this
+(MIT). The pty, the drawing on properdesktop-toolkit and the windows are this
 repository's own. `Terminal::promptClickInput` in `lib/terminal.cpp` ports
 the click-to-move logic of Ghostty's `Screen.promptClickLine` and
 `Surface.maybePromptClick` to libghostty-vt's C API.
 
 ## Dependencies
 
-Terminal is built on [cutefish-toolkit](https://github.com/cutefishos/cutefish-toolkit)
+Terminal is built on [properdesktop-toolkit](https://github.com/danjfaulkner/properdesktop-toolkit)
 and libghostty-vt 1.0, linked statically; install both first. libghostty-vt
-is found as the pkg-config module `cutefish-ghostty-vt`, which the Cutefish
-package `cutefish-ghostty-vt-dev` provides.
+is found as the pkg-config module `properdesktop-ghostty-vt`, which the Proper Desktop
+package `properdesktop-ghostty-vt-dev` provides.
 
 Debian/Ubuntu Dependencies:
 ```sh

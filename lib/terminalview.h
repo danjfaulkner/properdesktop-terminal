@@ -28,7 +28,7 @@ class Session;
 // Shows a session's terminal from a libghostty-vt render state, cells on whole
 // device pixels; takes the keys, the pointer, the wheel and pastes for it; and
 // keeps the selection, the scrollback position and the cursor.
-class TerminalView : public cutefish::ui::View, public cutefish::ui::Scroller::Target
+class TerminalView : public properdesktop::ui::View, public properdesktop::ui::Scroller::Target
 {
 public:
     TerminalView();
@@ -49,7 +49,7 @@ public:
     // The default background over the window's; 0 leaves it to the window.
     void setBackgroundOpacity(double opacity);
     // What links under the pointer are underlined in.
-    void setLinkColor(cutefish::ui::Color color);
+    void setLinkColor(properdesktop::ui::Color color);
 
     int lines() const { return m_lines; }
     int columns() const { return m_columns; }
@@ -84,17 +84,17 @@ public:
     void find(const std::string& text, bool forwards, bool fromSelection, bool caseSensitive);
     void clearFind();
 
-    cutefish::base::Signal<> notifyBell;
-    cutefish::base::Signal<const std::string&> multilinePasteRequested;
-    cutefish::base::Signal<> scrollbarParamsChanged;
-    cutefish::base::Signal<> scrollbarValueChanged;
-    cutefish::base::Signal<bool> findResult;
-    cutefish::base::Signal<> sizeChanged;
+    properdesktop::base::Signal<> notifyBell;
+    properdesktop::base::Signal<const std::string&> multilinePasteRequested;
+    properdesktop::base::Signal<> scrollbarParamsChanged;
+    properdesktop::base::Signal<> scrollbarValueChanged;
+    properdesktop::base::Signal<bool> findResult;
+    properdesktop::base::Signal<> sizeChanged;
 
     // The window's shortcuts see keys first; a right click, or Shift+right
     // click under a program that takes the mouse, asks for the menu; a
     // Control+click on a link asks to open it.
-    std::function<bool(const cutefish::ui::KeyEvent&)> onShortcut;
+    std::function<bool(const properdesktop::ui::KeyEvent&)> onShortcut;
     std::function<void(double x, double y)> onContextMenu;
     std::function<void(const std::string& url)> onLinkActivated;
 
@@ -103,27 +103,27 @@ public:
 
 protected:
     void layout() override;
-    void paint(cutefish::ui::Painter& painter) override;
-    void pointerPress(const cutefish::ui::PointerEvent& event) override;
-    void pointerMove(const cutefish::ui::PointerEvent& event) override;
-    void pointerRelease(const cutefish::ui::PointerEvent& event) override;
-    void hoverMove(const cutefish::ui::PointerEvent& event) override;
+    void paint(properdesktop::ui::Painter& painter) override;
+    void pointerPress(const properdesktop::ui::PointerEvent& event) override;
+    void pointerMove(const properdesktop::ui::PointerEvent& event) override;
+    void pointerRelease(const properdesktop::ui::PointerEvent& event) override;
+    void hoverMove(const properdesktop::ui::PointerEvent& event) override;
     void hoverChanged() override;
-    void focusIn(cutefish::ui::FocusReason reason) override;
+    void focusIn(properdesktop::ui::FocusReason reason) override;
     void focusOut() override;
-    bool keyPress(const cutefish::ui::KeyEvent& event) override;
-    bool keyRelease(const cutefish::ui::KeyEvent& event) override;
-    bool scroll(const cutefish::ui::ScrollEvent& event) override;
+    bool keyPress(const properdesktop::ui::KeyEvent& event) override;
+    bool keyRelease(const properdesktop::ui::KeyEvent& event) override;
+    bool scroll(const properdesktop::ui::ScrollEvent& event) override;
     bool acceptsTextInput() const override { return true; }
-    cutefish::ui::TextInputState textInputState() const override;
-    void textInput(const cutefish::ui::TextInputEvent& event) override;
+    properdesktop::ui::TextInputState textInputState() const override;
+    void textInput(const properdesktop::ui::TextInputEvent& event) override;
 
 private:
     // Scroller::Target: the scrollback in logical pixels.
-    cutefish::ui::Scroller::Axis horizontalAxis() const override;
-    cutefish::ui::Scroller::Axis verticalAxis() const override;
-    cutefish::ui::PointF position() const override;
-    void applyPosition(cutefish::ui::PointF position) override;
+    properdesktop::ui::Scroller::Axis horizontalAxis() const override;
+    properdesktop::ui::Scroller::Axis verticalAxis() const override;
+    properdesktop::ui::PointF position() const override;
+    void applyPosition(properdesktop::ui::PointF position) override;
 
     Terminal* terminal() const;
     std::string resolvedPath(const std::string& path) const;
@@ -133,33 +133,33 @@ private:
     int gridLeft() const;
     int gridTop() const;
     // The viewport cell under a point of the view.
-    std::pair<int, int> cellAt(cutefish::ui::PointF point) const;
-    cutefish::ui::RectF rowRect(int line, int count = 1) const;
+    std::pair<int, int> cellAt(properdesktop::ui::PointF point) const;
+    properdesktop::ui::RectF rowRect(int line, int count = 1) const;
     // At the window's scale, or another a frame is drawn at.
     void updateGeometry(double scale = 0);
 
     // terminalviewpaint.cpp
     void scheduleUpdate();
     void updateRenderState();
-    void paintRows(cutefish::ui::Painter& painter);
-    void paintPreedit(cutefish::ui::Painter& painter);
+    void paintRows(properdesktop::ui::Painter& painter);
+    void paintPreedit(properdesktop::ui::Painter& painter);
 
     // terminalviewinput.cpp
-    bool sendKey(const cutefish::ui::KeyEvent& event);
-    void sendKeyRelease(const cutefish::ui::KeyEvent& event);
+    bool sendKey(const properdesktop::ui::KeyEvent& event);
+    void sendKeyRelease(const properdesktop::ui::KeyEvent& event);
     void releaseHeldKey();
-    bool handleScrollKey(const cutefish::ui::KeyEvent& event);
-    bool sendMouse(MouseInput::Action action, int button, cutefish::ui::PointF position, uint32_t modifiers);
+    bool handleScrollKey(const properdesktop::ui::KeyEvent& event);
+    bool sendMouse(MouseInput::Action action, int button, properdesktop::ui::PointF position, uint32_t modifiers);
     bool programTakesMouse(uint32_t modifiers) const;
     // Without `apply` the gesture only counts the press, leaving the selection.
-    void selectionPress(const cutefish::ui::PointerEvent& event, bool apply = true);
+    void selectionPress(const properdesktop::ui::PointerEvent& event, bool apply = true);
     // The link under the position, as a selection.
-    bool linkSelection(cutefish::ui::PointF position, GhosttySelection* selection) const;
-    void selectionDrag(cutefish::ui::PointF position);
-    void selectionRelease(cutefish::ui::PointF position);
+    bool linkSelection(properdesktop::ui::PointF position, GhosttySelection* selection) const;
+    void selectionDrag(properdesktop::ui::PointF position);
+    void selectionRelease(properdesktop::ui::PointF position);
     void startTextDrag();
     void autoscroll();
-    GhosttyGridRef refAt(cutefish::ui::PointF position, bool* ok) const;
+    GhosttyGridRef refAt(properdesktop::ui::PointF position, bool* ok) const;
 
     void scrollLines(int lines);
     void scrollChanged(bool byOutput = false);
@@ -171,18 +171,18 @@ private:
     void selectionChanged();
     void sendPaste(const std::string& text, bool typed);
     bool showsLinks(uint32_t modifiers) const;
-    void updateLinkHover(cutefish::ui::PointF position, uint32_t modifiers);
+    void updateLinkHover(properdesktop::ui::PointF position, uint32_t modifiers);
     void clearLinkHover();
     void updatePointerShape();
     bool hasKeyboard() const;
     void reportFocus();
 
     Session* m_session = nullptr;
-    std::vector<cutefish::base::Subscription> m_sessionConnections;
+    std::vector<properdesktop::base::Subscription> m_sessionConnections;
 
     std::string m_colorScheme;
-    cutefish::ui::Color m_background;
-    cutefish::ui::Color m_foreground;
+    properdesktop::ui::Color m_background;
+    properdesktop::ui::Color m_foreground;
     double m_opacity = 1;
     CellFont m_font;
     BoxDrawing m_boxes;
@@ -202,7 +202,7 @@ private:
     GhosttyRenderStateRowCells m_cells = nullptr;
     bool m_updatePending = false;
     bool m_held = false;
-    cutefish::base::Timer m_holdTimeout;
+    properdesktop::base::Timer m_holdTimeout;
     std::pair<int, int> m_lastCursor{-1, -1};
 
     // The scrollback position and the touchpad's offset within a line,
@@ -210,24 +210,24 @@ private:
     Terminal::Scrollbar m_scrollbar;
     double m_scrollOffset = 0;
     bool m_applyingScroll = false;
-    std::unique_ptr<cutefish::ui::Scroller> m_scroller;
+    std::unique_ptr<properdesktop::ui::Scroller> m_scroller;
     // Rows the scroller's positions lead the scrollback's by: output that
     // moves the view during a scroll moves the scroller's origin with it.
     int64_t m_scrollerShift = 0;
     double m_wheelRemainder = 0;
-    cutefish::ui::PointF m_lastPointer;
+    properdesktop::ui::PointF m_lastPointer;
 
     // The cursor's blink: hidden in the off half.
-    cutefish::base::Timer m_cursorBlinkTimer;
+    properdesktop::base::Timer m_cursorBlinkTimer;
     bool m_cursorHidden = false;
     // Text with the blink attribute.
-    cutefish::base::Timer m_textBlinkTimer;
+    properdesktop::base::Timer m_textBlinkTimer;
     bool m_textHidden = false;
     bool m_hasBlinkingText = false;
 
     bool m_reportedFocus = false;
     // The last key pressed and not yet released.
-    std::optional<cutefish::ui::KeyEvent> m_pressedKey;
+    std::optional<properdesktop::ui::KeyEvent> m_pressedKey;
 
     bool m_notifiesBell = false;
     bool m_confirmMultilinePaste = true;
@@ -239,7 +239,7 @@ private:
     GhosttySelectionGestureEvent m_dragEvent = nullptr;
     GhosttySelectionGestureEvent m_releaseEvent = nullptr;
     GhosttySelectionGestureEvent m_tickEvent = nullptr;
-    cutefish::base::Timer m_autoscroll;
+    properdesktop::base::Timer m_autoscroll;
     uint32_t m_buttons = 0;
     uint32_t m_lastModifiers = 0;
     bool m_selecting = false;
@@ -249,7 +249,7 @@ private:
     // A press on selected text drags it out once the pointer moves far enough.
     enum class Drag { None, Pending, Dragging };
     Drag m_drag = Drag::None;
-    cutefish::ui::PointF m_dragStart;
+    properdesktop::ui::PointF m_dragStart;
 
     // The link under the pointer, underlined while it is over it.
     struct Segment
@@ -259,7 +259,7 @@ private:
         int length;
     };
     std::vector<Segment> m_linkSegments;
-    cutefish::ui::Color m_linkColor;
+    properdesktop::ui::Color m_linkColor;
     bool m_tracksMouse = false;
     std::pair<int, int> m_hoverCell{-1, -1};
 

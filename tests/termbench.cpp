@@ -108,7 +108,7 @@ static double seconds(Clock::time_point start)
 
 static int throughPty(const std::string& file)
 {
-    cutefish::base::EventLoop loop;
+    properdesktop::base::EventLoop loop;
     term::Session session;
     session.setScrollbackLines(10000);
     session.resize(175, 52, 8, 16);

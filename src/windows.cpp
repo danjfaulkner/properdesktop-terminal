@@ -37,9 +37,9 @@ void Windows::release(TerminalWindow* window)
 
     std::shared_ptr<TerminalWindow> released(std::move(*found));
     m_windows.erase(found);
-    cutefish::base::EventLoop::current()->post([released, this] {
+    properdesktop::base::EventLoop::current()->post([released, this] {
         // The last window takes the application with it.
         if (m_windows.empty())
-            cutefish::ui::Application::instance()->quit();
+            properdesktop::ui::Application::instance()->quit();
     });
 }

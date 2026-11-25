@@ -12,7 +12,7 @@
 #include "base/strings.h"
 #include "base/url.h"
 
-namespace strings = cutefish::base::strings;
+namespace strings = properdesktop::base::strings;
 
 namespace ProcessHelper
 {
@@ -22,9 +22,9 @@ static std::string fromUserInput(const std::string& text)
 {
     const std::string trimmed(strings::trimmed(text));
     if (trimmed.starts_with('/'))
-        return cutefish::base::url::fromLocalFile(trimmed);
+        return properdesktop::base::url::fromLocalFile(trimmed);
     if (trimmed.starts_with("~/"))
-        return cutefish::base::url::fromLocalFile(cutefish::base::paths::home() + trimmed.substr(1));
+        return properdesktop::base::url::fromLocalFile(properdesktop::base::paths::home() + trimmed.substr(1));
     return trimmed;
 }
 
@@ -32,18 +32,18 @@ bool openUrl(const std::string& url)
 {
     if (url.empty())
         return false;
-    return cutefish::base::Process::startDetached("xdg-open", {fromUserInput(url)}) > 0;
+    return properdesktop::base::Process::startDetached("xdg-open", {fromUserInput(url)}) > 0;
 }
 
 // Asynchronous, so a file manager that is slow to start never stalls the terminal.
 static void callFileManager(const char* method, const std::string& path)
 {
-    cutefish::base::dbus::Connection* bus = cutefish::base::dbus::Connection::session();
+    properdesktop::base::dbus::Connection* bus = properdesktop::base::dbus::Connection::session();
     if (!bus)
         return;
-    cutefish::base::dbus::Proxy proxy(bus, "org.freedesktop.FileManager1", "/org/freedesktop/FileManager1",
+    properdesktop::base::dbus::Proxy proxy(bus, "org.freedesktop.FileManager1", "/org/freedesktop/FileManager1",
                                       "org.freedesktop.FileManager1");
-    proxy.send(method, std::vector<std::string>{cutefish::base::url::fromLocalFile(path)},
+    proxy.send(method, std::vector<std::string>{properdesktop::base::url::fromLocalFile(path)},
                std::to_string(getpid()));
 }
 
@@ -71,7 +71,7 @@ std::string existingPath(const std::string& text, const std::string& baseDir)
         path = path.substr(1, path.size() - 2);
 
     if (path == "~" || path.starts_with("~/"))
-        path.replace(0, 1, cutefish::base::paths::home());
+        path.replace(0, 1, properdesktop::base::paths::home());
 
     // Relative to baseDir, cleaned lexically; symbolic links are not resolved.
     std::error_code error;

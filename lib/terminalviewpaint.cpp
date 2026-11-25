@@ -11,8 +11,8 @@
 #include "session.h"
 #include "terminalview.h"
 
-namespace ui = cutefish::ui;
-using cutefish::base::Rect;
+namespace ui = properdesktop::ui;
+using properdesktop::base::Rect;
 
 namespace term {
 
@@ -22,7 +22,7 @@ void TerminalView::scheduleUpdate()
         return;
     m_updatePending = true;
     std::weak_ptr<bool> alive = m_alive;
-    cutefish::base::EventLoop::current()->post([this, alive] {
+    properdesktop::base::EventLoop::current()->post([this, alive] {
         if (alive.lock())
             updateRenderState();
     });

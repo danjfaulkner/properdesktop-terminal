@@ -10,7 +10,7 @@
 #include "base/strings.h"
 #include "base/url.h"
 
-namespace strings = cutefish::base::strings;
+namespace strings = properdesktop::base::strings;
 
 namespace term {
 
@@ -144,9 +144,9 @@ std::map<std::string, std::optional<std::string>> proxyEnvironment(const std::st
         const std::string user = stringOf(value("system/proxy/http", "authentication-user"));
         if (value("system/proxy/http", "use-authentication") == "true" && !user.empty()) {
             const std::string password = stringOf(value("system/proxy/http", "authentication-password"));
-            login = cutefish::base::url::percentEncoded(user);
+            login = properdesktop::base::url::percentEncoded(user);
             if (!password.empty())
-                login += ":" + cutefish::base::url::percentEncoded(password);
+                login += ":" + properdesktop::base::url::percentEncoded(password);
             login += "@";
         }
 
@@ -187,8 +187,8 @@ std::map<std::string, std::optional<std::string>> proxyEnvironment(const std::st
 
 std::map<std::string, std::optional<std::string>> proxyEnvironment()
 {
-    const std::string path = cutefish::base::paths::configHome() + "/glib-2.0/settings/keyfile";
-    return proxyEnvironment(cutefish::base::file::read(path).value_or(std::string()));
+    const std::string path = properdesktop::base::paths::configHome() + "/glib-2.0/settings/keyfile";
+    return proxyEnvironment(properdesktop::base::file::read(path).value_or(std::string()));
 }
 
 }

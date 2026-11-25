@@ -13,10 +13,10 @@
 #include "processhelper.h"
 #include "settingsdialog.h"
 
-using namespace cutefish::ui;
-using cutefish::i18n::tr;
-using cutefish::i18n::trn;
-namespace strings = cutefish::base::strings;
+using namespace properdesktop::ui;
+using properdesktop::i18n::tr;
+using properdesktop::i18n::trn;
+namespace strings = properdesktop::base::strings;
 
 void TerminalWindow::showSettings()
 {
@@ -38,7 +38,7 @@ void TerminalWindow::showAbout()
     m_aboutDialog->setIconSource("utilities-terminal");
     m_aboutDialog->onClosed = [this] {
         std::shared_ptr<AboutDialog> doomed(std::move(m_aboutDialog));
-        cutefish::base::EventLoop::current()->post([doomed] {});
+        properdesktop::base::EventLoop::current()->post([doomed] {});
     };
     m_aboutDialog->show();
 }

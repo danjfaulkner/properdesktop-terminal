@@ -9,7 +9,7 @@
 
 namespace term {
 
-using cutefish::base::Rect;
+using properdesktop::base::Rect;
 
 // The four arms of U+2500 to U+257F, up, right, down and left: 0 none,
 // 1 light, 2 heavy, 3 double; "d" marks the dashed, arc and diagonal

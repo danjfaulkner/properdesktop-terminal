@@ -1,6 +1,6 @@
-# libghostty-vt as a static library under a name of Cutefish's own, so it is
+# libghostty-vt as a static library under a name of Proper Desktop's own, so it is
 # linked in whole and nothing of it is needed at run time.
-pkg_check_modules(GHOSTTY_VT REQUIRED IMPORTED_TARGET cutefish-ghostty-vt)
+pkg_check_modules(GHOSTTY_VT REQUIRED IMPORTED_TARGET properdesktop-ghostty-vt)
 pkg_check_modules(XKBCOMMON REQUIRED IMPORTED_TARGET xkbcommon)
 pkg_check_modules(PCRE2 REQUIRED IMPORTED_TARGET libpcre2-8)
 
@@ -18,10 +18,10 @@ add_library(terminal-emulator STATIC
 )
 target_include_directories(terminal-emulator PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_definitions(terminal-emulator PRIVATE
-    SHELL_INTEGRATION_DIR="${CMAKE_INSTALL_FULL_DATADIR}/cutefish-terminal/shell-integration")
+    SHELL_INTEGRATION_DIR="${CMAKE_INSTALL_FULL_DATADIR}/properdesktop-terminal/shell-integration")
 target_link_libraries(terminal-emulator
     PUBLIC
-        Cutefish::ToolkitBase
+        ProperDesktop::ToolkitBase
         PkgConfig::GHOSTTY_VT
     PRIVATE
         PkgConfig::PCRE2
@@ -39,7 +39,7 @@ add_library(terminal-display STATIC
 target_link_libraries(terminal-display
     PUBLIC
         terminal-emulator
-        Cutefish::Toolkit
+        ProperDesktop::Toolkit
     PRIVATE
         PkgConfig::XKBCOMMON
 )

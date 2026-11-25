@@ -15,7 +15,7 @@
 
 #include "scenario.h"
 
-using namespace cutefish;
+using namespace properdesktop;
 
 TEST(ViewTest, FindGoesFromNewestToOlderWithSmartCase)
 {

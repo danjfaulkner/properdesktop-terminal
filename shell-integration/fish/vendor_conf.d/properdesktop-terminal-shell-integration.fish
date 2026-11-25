@@ -3,13 +3,13 @@
 # SPDX-License-Identifier: MIT
 #
 # Marks the prompt, the command line and its output (OSC 133) and reports
-# the working directory (OSC 7) for cutefish-terminal. fish reads it from
+# the working directory (OSC 7) for properdesktop-terminal. fish reads it from
 # vendor_conf.d because the terminal puts this directory first in
 # XDG_DATA_DIRS; it takes the directory out again before anything else.
 # Adapted from the reference terminal's fish integration; see the README.
 
 function __cft_restore_xdg_data_dirs
-    if not set -q CUTEFISH_TERMINAL_SHELL_INTEGRATION_XDG_DIR
+    if not set -q PROPERDESKTOP_TERMINAL_SHELL_INTEGRATION_XDG_DIR
         return
     end
     if not set -q XDG_DATA_DIRS
@@ -18,7 +18,7 @@ function __cft_restore_xdg_data_dirs
 
     # As a list, to take ours out of it.
     set --function --path xdg_data_dirs "$XDG_DATA_DIRS"
-    if set --function index (contains --index "$CUTEFISH_TERMINAL_SHELL_INTEGRATION_XDG_DIR" $xdg_data_dirs)
+    if set --function index (contains --index "$PROPERDESKTOP_TERMINAL_SHELL_INTEGRATION_XDG_DIR" $xdg_data_dirs)
         set --erase --function xdg_data_dirs[$index]
     end
     if set -q xdg_data_dirs[1]
@@ -26,7 +26,7 @@ function __cft_restore_xdg_data_dirs
     else
         set --erase --global XDG_DATA_DIRS
     end
-    set --erase CUTEFISH_TERMINAL_SHELL_INTEGRATION_XDG_DIR
+    set --erase PROPERDESKTOP_TERMINAL_SHELL_INTEGRATION_XDG_DIR
 end
 
 function __cft_exit

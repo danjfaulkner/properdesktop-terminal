@@ -13,7 +13,7 @@
 #include "base/timer.h"
 #include "ui/geometry.h"
 
-namespace cutefish::ui {
+namespace properdesktop::ui {
 class AboutDialog;
 class Animation;
 class ConfirmDialog;
@@ -43,7 +43,7 @@ public:
         // Where the first shell starts; empty takes the command line's.
         std::string startDirectory;
         std::vector<std::string> command;
-        cutefish::ui::SizeF size;
+        properdesktop::ui::SizeF size;
         int fontZoom = 0;
         bool restoresSize = true;
     };
@@ -51,17 +51,17 @@ public:
     TerminalWindow(Windows& windows, TerminalSettings& settings, Options options);
     ~TerminalWindow();
 
-    cutefish::ui::Window& window() const { return *m_window; }
+    properdesktop::ui::Window& window() const { return *m_window; }
     TerminalSettings& settings() const { return m_settings; }
 
     // The scheme's own background, so cells in the default colour and the
     // window around the text are one surface; the title bar's text and
     // buttons follow the scheme rather than the system theme.
     const std::string& colorScheme() const { return m_colorScheme; }
-    cutefish::ui::Color terminalBackground() const { return m_terminalBackground; }
-    cutefish::ui::Color chromeForeground() const { return m_chromeForeground; }
+    properdesktop::ui::Color terminalBackground() const { return m_terminalBackground; }
+    properdesktop::ui::Color chromeForeground() const { return m_chromeForeground; }
     bool chromeDark() const { return m_chromeDark; }
-    cutefish::ui::Color schemeColor(int index, cutefish::ui::Color fallback) const;
+    properdesktop::ui::Color schemeColor(int index, properdesktop::ui::Color fallback) const;
 
     // Zoom is for this window only; the size in Settings stays the default.
     int fontPointSize() const;
@@ -114,8 +114,8 @@ private:
     void showLinkConfirm();
     void showPasteConfirm();
     void closeProtection(int index);
-    void detachTab(int index, cutefish::ui::PointF position);
-    void openTabMenu(int index, cutefish::ui::PointF position);
+    void detachTab(int index, properdesktop::ui::PointF position);
+    void openTabMenu(int index, properdesktop::ui::PointF position);
     void attach(TerminalPage* page);
     void showPage(int index);
     int indexOfPage(const TerminalPage* page) const;
@@ -124,9 +124,9 @@ private:
     Windows& m_windows;
     TerminalSettings& m_settings;
     // The window shows it until the window goes, so it outlives the window.
-    std::unique_ptr<cutefish::ui::Menu> m_mainMenu;
-    std::unique_ptr<cutefish::ui::Window> m_window;
-    cutefish::ui::WindowHeader* m_header = nullptr;
+    std::unique_ptr<properdesktop::ui::Menu> m_mainMenu;
+    std::unique_ptr<properdesktop::ui::Window> m_window;
+    properdesktop::ui::WindowHeader* m_header = nullptr;
     HeaderContent* m_headerContent = nullptr;
     Content* m_content = nullptr;
     Overlay* m_overlay = nullptr;
@@ -136,17 +136,17 @@ private:
     int m_fontZoom = 0;
 
     std::string m_colorScheme;
-    cutefish::ui::Color m_terminalBackground;
-    cutefish::ui::Color m_chromeForeground;
+    properdesktop::ui::Color m_terminalBackground;
+    properdesktop::ui::Color m_chromeForeground;
     bool m_chromeDark = true;
-    std::vector<cutefish::ui::Color> m_schemeColors;
+    std::vector<properdesktop::ui::Color> m_schemeColors;
 
     // Each dialog is a window of its own, made the first time it is needed.
-    std::unique_ptr<cutefish::ui::ConfirmDialog> m_exitPrompt;
-    std::unique_ptr<cutefish::ui::ConfirmDialog> m_pasteConfirm;
-    std::unique_ptr<cutefish::ui::ConfirmDialog> m_linkConfirm;
+    std::unique_ptr<properdesktop::ui::ConfirmDialog> m_exitPrompt;
+    std::unique_ptr<properdesktop::ui::ConfirmDialog> m_pasteConfirm;
+    std::unique_ptr<properdesktop::ui::ConfirmDialog> m_linkConfirm;
     std::unique_ptr<SettingsDialog> m_settingsDialog;
-    std::unique_ptr<cutefish::ui::AboutDialog> m_aboutDialog;
+    std::unique_ptr<properdesktop::ui::AboutDialog> m_aboutDialog;
     std::function<void()> m_pendingAction;
     std::function<void()> m_pendingPaste;
     std::string m_pendingLink;
@@ -159,11 +159,11 @@ private:
     // over the tab bar; the bar stays shown.
     bool m_detaching = false;
     bool m_incoming = false;
-    std::unique_ptr<cutefish::ui::Menu> m_tabMenu;
+    std::unique_ptr<properdesktop::ui::Menu> m_tabMenu;
     int m_tabMenuIndex = -1;
 
-    std::vector<cutefish::base::Subscription> m_connections;
+    std::vector<properdesktop::base::Subscription> m_connections;
     // Dropped when the tab leaves this window, closed or moved to another.
-    std::map<const TerminalPage*, std::vector<cutefish::base::Subscription>> m_pageConnections;
+    std::map<const TerminalPage*, std::vector<properdesktop::base::Subscription>> m_pageConnections;
     std::shared_ptr<bool> m_alive = std::make_shared<bool>(true);
 };

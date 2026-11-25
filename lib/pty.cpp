@@ -30,7 +30,7 @@ static constexpr size_t kReadLimit = 256 * 1024;
 static constexpr size_t kReadChunk = 64 * 1024;
 
 Pty::Pty()
-    : m_loop(*cutefish::base::EventLoop::current())
+    : m_loop(*properdesktop::base::EventLoop::current())
 {
 }
 
@@ -96,7 +96,7 @@ bool Pty::start(const Options& options)
 
     std::string program = options.program;
     if (program.find('/') == std::string::npos)
-        program = cutefish::base::paths::findExecutable(program);
+        program = properdesktop::base::paths::findExecutable(program);
     if (program.empty() || ::access(program.c_str(), X_OK) != 0)
         return false;
 

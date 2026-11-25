@@ -23,7 +23,7 @@ public:
     struct Shape
     {
         // Device pixels from the cell's top left, filled in the text colour.
-        std::vector<cutefish::base::Rect> rects;
+        std::vector<properdesktop::base::Rect> rects;
         // A shade fills the whole cell at this opacity instead.
         double shade = 0;
     };

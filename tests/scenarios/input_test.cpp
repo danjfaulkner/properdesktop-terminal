@@ -12,7 +12,7 @@
 
 #include "scenario.h"
 
-using namespace cutefish;
+using namespace properdesktop;
 
 static bool asksForBracketedPaste(ui::TestDriver& driver)
 {

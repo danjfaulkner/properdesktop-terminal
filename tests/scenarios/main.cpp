@@ -10,7 +10,7 @@
 int main(int argc, char** argv)
 {
     testing::InitGoogleTest(&argc, argv);
-    cutefish::ui::Application application(argc, argv, cutefish::ui::Application::Platform::Headless);
+    properdesktop::ui::Application application(argc, argv, properdesktop::ui::Application::Platform::Headless);
     // Character widths follow the locale, as in the application.
     std::setlocale(LC_ALL, "");
     return RUN_ALL_TESTS();

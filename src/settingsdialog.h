@@ -9,7 +9,7 @@
 
 #include "base/signal.h"
 
-namespace cutefish::ui {
+namespace properdesktop::ui {
 class DialogWindow;
 class RowComboBox;
 class Slider;
@@ -36,8 +36,8 @@ private:
     void update();
 
     TerminalWindow* m_window;
-    std::unique_ptr<cutefish::ui::DialogWindow> m_dialog;
+    std::unique_ptr<properdesktop::ui::DialogWindow> m_dialog;
     SettingsContent* m_content = nullptr;
     bool m_shown = false;
-    cutefish::base::Subscription m_settingsChanged;
+    properdesktop::base::Subscription m_settingsChanged;
 };

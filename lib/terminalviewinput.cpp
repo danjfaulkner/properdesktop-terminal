@@ -18,7 +18,7 @@
 #include "session.h"
 #include "terminalview.h"
 
-namespace ui = cutefish::ui;
+namespace ui = properdesktop::ui;
 
 namespace term {
 
@@ -194,7 +194,7 @@ void TerminalView::textInput(const ui::TextInputEvent& event)
         terminal->scrollToBottom();
         scrollChanged();
     }
-    m_preedit = cutefish::base::strings::utf8ToUtf32(event.preedit);
+    m_preedit = properdesktop::base::strings::utf8ToUtf32(event.preedit);
     requestPaint();
 }
 

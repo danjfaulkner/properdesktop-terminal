@@ -8,11 +8,11 @@
 
 #include "base/signal.h"
 
-namespace cutefish::base {
+namespace properdesktop::base {
 class Settings;
 }
 
-// The terminal's settings in ~/.config/cutefish/terminal.conf, one object for
+// The terminal's settings in ~/.config/properdesktop/terminal.conf, one object for
 // every window of the process, so a change shows in all of them at once.
 class TerminalSettings
 {
@@ -49,12 +49,12 @@ public:
     void setBlur(bool blur);
 
     // After any setting changed.
-    cutefish::base::Signal<> changed;
+    properdesktop::base::Signal<> changed;
 
 private:
     void save(const std::string& key);
 
-    std::unique_ptr<cutefish::base::Settings> m_settings;
+    std::unique_ptr<properdesktop::base::Settings> m_settings;
     int m_fontPointSize = 10;
     std::string m_fontName = "Noto Mono";
     bool m_blinkingCursor = true;

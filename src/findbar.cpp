@@ -16,8 +16,8 @@
 
 #include "terminalview.h"
 
-using namespace cutefish::ui;
-using cutefish::i18n::tr;
+using namespace properdesktop::ui;
+using properdesktop::i18n::tr;
 
 // The field's keys: Enter searches, Shift+Enter searches the other way, Escape closes.
 class FindField : public TextField
@@ -139,7 +139,7 @@ void FindBar::search(bool forwards, bool fromSelection)
         m_notFound = false;
 
     // Smart case: a capital letter in the query makes it case-sensitive.
-    const bool caseSensitive = text != cutefish::base::strings::toAsciiLower(text);
+    const bool caseSensitive = text != properdesktop::base::strings::toAsciiLower(text);
     m_terminal->find(text, forwards, fromSelection, caseSensitive);
 }
 

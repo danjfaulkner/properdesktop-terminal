@@ -35,9 +35,9 @@ TEST(ShellIntegrationTest, BashReadsTheScriptInPosixMode)
     Pty::Options options = launch({"/usr/bin/bash", "--norc", "-i"});
     ASSERT_TRUE(integrateShell(kScripts, options));
     EXPECT_EQ(options.arguments, (std::vector<std::string>{"/usr/bin/bash", "--posix", "-i"}));
-    EXPECT_EQ(options.environment["ENV"], kScripts + "/bash/cutefish-terminal.bash");
-    EXPECT_EQ(options.environment["CUTEFISH_TERMINAL_BASH_INJECT"], "1 --norc");
-    EXPECT_EQ(options.copies["CUTEFISH_TERMINAL_BASH_ENV"], "ENV");
+    EXPECT_EQ(options.environment["ENV"], kScripts + "/bash/properdesktop-terminal.bash");
+    EXPECT_EQ(options.environment["PROPERDESKTOP_TERMINAL_BASH_INJECT"], "1 --norc");
+    EXPECT_EQ(options.copies["PROPERDESKTOP_TERMINAL_BASH_ENV"], "ENV");
 
     // A command, or POSIX mode asked for, is left alone.
     for (const auto& arguments : {std::vector<std::string>{"bash", "-c", "true"},
@@ -56,11 +56,11 @@ TEST(ShellIntegrationTest, ZshAndFishFindTheirScriptsThroughTheEnvironment)
     ASSERT_TRUE(integrateShell(kScripts, zsh));
     EXPECT_EQ(zsh.arguments, std::vector<std::string>{"/usr/bin/zsh"});
     EXPECT_EQ(zsh.environment["ZDOTDIR"], kScripts + "/zsh");
-    EXPECT_EQ(zsh.copies["CUTEFISH_TERMINAL_ZSH_ZDOTDIR"], "ZDOTDIR");
+    EXPECT_EQ(zsh.copies["PROPERDESKTOP_TERMINAL_ZSH_ZDOTDIR"], "ZDOTDIR");
 
     Pty::Options fish = launch({"fish"});
     ASSERT_TRUE(integrateShell(kScripts, fish));
-    EXPECT_EQ(fish.environment["CUTEFISH_TERMINAL_SHELL_INTEGRATION_XDG_DIR"], kScripts);
+    EXPECT_EQ(fish.environment["PROPERDESKTOP_TERMINAL_SHELL_INTEGRATION_XDG_DIR"], kScripts);
     EXPECT_EQ(fish.prefixes["XDG_DATA_DIRS"].first, kScripts);
 
     Pty::Options sh = launch({"/bin/sh"});
@@ -70,13 +70,13 @@ TEST(ShellIntegrationTest, ZshAndFishFindTheirScriptsThroughTheEnvironment)
 }
 
 // Runs the loop until the condition holds, for at most five seconds.
-static bool waitFor(cutefish::base::EventLoop& loop, const std::function<bool()>& condition)
+static bool waitFor(properdesktop::base::EventLoop& loop, const std::function<bool()>& condition)
 {
     const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(5);
     while (!condition()) {
         if (std::chrono::steady_clock::now() > deadline)
             return false;
-        cutefish::base::Timer tick;
+        properdesktop::base::Timer tick;
         tick.setSingleShot(true);
         tick.onTimeout = [] {};
         tick.start(std::chrono::milliseconds(10));
@@ -121,10 +121,10 @@ protected:
     {
         const std::filesystem::path path = std::filesystem::path(m_home.path()) / name;
         std::filesystem::create_directories(path.parent_path());
-        ASSERT_TRUE(cutefish::base::file::writeAtomically(path.string(), text));
+        ASSERT_TRUE(properdesktop::base::file::writeAtomically(path.string(), text));
     }
 
-    cutefish::base::file::TemporaryDirectory m_home{"/tmp", "shell-integration-home"};
+    properdesktop::base::file::TemporaryDirectory m_home{"/tmp", "shell-integration-home"};
     std::optional<std::string> m_savedHome;
 };
 
@@ -137,7 +137,7 @@ TEST_P(ShellTest, MarksPromptsReportsTheDirectoryAndKeepsTheUsersStartup)
     write(".zshrc", "CFT_RC=loaded\n");
     write(".config/fish/config.fish", "set CFT_RC loaded\n");
 
-    cutefish::base::EventLoop loop;
+    properdesktop::base::EventLoop loop;
     Session session;
     session.setCommand({path});
     session.setInitialWorkingDirectory(m_home.path());

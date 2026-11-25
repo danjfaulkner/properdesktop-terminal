@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 #
 # Marks the prompt, the command line and its output (OSC 133) and reports
-# the working directory (OSC 7) for cutefish-terminal.
+# the working directory (OSC 7) for properdesktop-terminal.
 #
 # The terminal starts bash in POSIX mode with ENV naming this file, so bash
 # reads it in place of its startup files; it leaves POSIX mode and reads
@@ -10,12 +10,12 @@
 
 [[ $- == *i* ]] || builtin return 0
 
-if [[ -n ${CUTEFISH_TERMINAL_BASH_INJECT-} ]]; then
-    builtin declare __cft_flags=$CUTEFISH_TERMINAL_BASH_INJECT
-    builtin unset ENV CUTEFISH_TERMINAL_BASH_INJECT
-    if [[ -n ${CUTEFISH_TERMINAL_BASH_ENV+x} ]]; then
-        builtin export ENV=$CUTEFISH_TERMINAL_BASH_ENV
-        builtin unset CUTEFISH_TERMINAL_BASH_ENV
+if [[ -n ${PROPERDESKTOP_TERMINAL_BASH_INJECT-} ]]; then
+    builtin declare __cft_flags=$PROPERDESKTOP_TERMINAL_BASH_INJECT
+    builtin unset ENV PROPERDESKTOP_TERMINAL_BASH_INJECT
+    if [[ -n ${PROPERDESKTOP_TERMINAL_BASH_ENV+x} ]]; then
+        builtin export ENV=$PROPERDESKTOP_TERMINAL_BASH_ENV
+        builtin unset PROPERDESKTOP_TERMINAL_BASH_ENV
     fi
 
     builtin set +o posix
@@ -45,10 +45,10 @@ if [[ -n ${CUTEFISH_TERMINAL_BASH_INJECT-} ]]; then
                 break
             fi
         done
-        __cft_file=${CUTEFISH_TERMINAL_BASH_RCFILE:-$HOME/.bashrc}
+        __cft_file=${PROPERDESKTOP_TERMINAL_BASH_RCFILE:-$HOME/.bashrc}
         [[ -r $__cft_file ]] && builtin source "$__cft_file"
     fi
-    builtin unset __cft_file __cft_flags CUTEFISH_TERMINAL_BASH_RCFILE
+    builtin unset __cft_file __cft_flags PROPERDESKTOP_TERMINAL_BASH_RCFILE
 fi
 
 # PS0 needs bash 4.4.
